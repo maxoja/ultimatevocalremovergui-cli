@@ -1,3 +1,9 @@
 /models/
 /gui_data/cr_text.txt
 /data.pkl
+.DS_Store
+/__pycache__
+/demucs/__pycache__
+/gui_data
+/lib_v5
+/testing-src/output
