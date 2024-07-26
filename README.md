@@ -1,3 +1,46 @@
+# Post-Fork Notes
+TODO
+- model at this location is not available
+- `'/Users/twnz/Documents/Repos/ultimatevocalremovergui-cli/models/MDX_Net_Models/MDX23C-8KFFT-InstVoc_HQ.ckpt'`
+```
+  NORMAL_REPO = "https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/{model name}"
+``` 
+
+
+
+Additional limitation
+- can only use CPU
+
+- make sure you have ffmpeg installed
+- install python 3.10.14
+  - **with tk option** so following these steps
+  - `brew install python@3.10`
+  - `brew install tcl-tk`
+  - `brew install python-tk@3.10`
+  - some might suggest doing `python-tk@3.10` at the beginning but I don't get to try that but you can
+- dependencies installation
+  - before running `pip install -r requirements.txt`
+    - remove onnxruntime-gpu from `requirements.txt`
+    - `export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True`
+  - possible errors details (but above pre-work should alread avoid these)
+    - `ERROR: No matching distribution found for onnxruntime-gpu`
+      - remove onnxruntime-gpu from `requirements.txt`
+      - this would restrict the separator to be able to only use cpu mode but that's all I need for now
+      - if we later really need to use gpu we need to probably manually compile the package ourselves. this prolly is the most usefull comment on the issue for that regard https://github.com/microsoft/onnxruntime/issues/11037
+    - `The 'sklearn' PyPI package is deprecated, use 'scikit-learn' rather than 'sklearn' for pip commands.`
+      - `export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True`
+- Run run.py
+  - when running ModuleNotFoundError: No module named '_tkinter'
+    - mentioned on top but can do `brew install tcl-tk` ref https://stackoverflow.com/questions/36760839/why-does-python-installed-via-homebrew-not-include-tkinter
+
+```
+git update-index --assume-unchanged models/MDX_Net_Models/model_data/model_data.json
+git update-index --assume-unchanged models/VR_Models/model_data/model_data.json
+git update-index --assume-unchanged models/Demucs_Models/model_data/model_name_mapper.json
+git update-index --assume-unchanged models/MDX_Net_Models/model_data/model_name_mapper.json
+git update-index --assume-unchanged models/Demucs_Models/v3_v4_repo/demucs_models.txt  
+```
+
 # Ultimate Vocal Remover GUI v5.6
 <img src="https://raw.githubusercontent.com/Anjok07/ultimatevocalremovergui/master/gui_data/img/UVR_v5.6.png?raw=true" />
 

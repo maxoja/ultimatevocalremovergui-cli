@@ -50,7 +50,7 @@ from separate import (
     cuda_available, mps_available, #directml_available,
 )
 from playsound import playsound
-from typing import List
+from typing import List, Any
 import onnx
 import re
 import sys
@@ -326,7 +326,8 @@ def drop(event, accept_mode: str = 'files'):
         return    
 
 class ModelData():
-    def __init__(self, model_name: str, 
+    def __init__(self,
+                 model_name: str,
                  selected_process_method=ENSEMBLE_MODE, 
                  is_secondary_model=False, 
                  primary_model_primary_stem=None, 
@@ -723,6 +724,7 @@ class ModelData():
         self.model_hash = None
         
         if not os.path.isfile(self.model_path):
+            print('cannot find model', self.model_path, 'try to download the model from ')
             self.model_status = False
             self.model_hash is None
         else:
@@ -7245,6 +7247,10 @@ def extract_stems(audio_file_base, export_path):
     filtered_lst = [item for item in stem_list if counter[item] > 1]
 
     return list(set(filtered_lst))
+
+def init_root(r):
+    global root
+    root = r
 
 if __name__ == "__main__":
 

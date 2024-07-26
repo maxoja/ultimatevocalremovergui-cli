@@ -38,7 +38,7 @@ root.is_check_splash = True
 # root.configure(bg=BG_COLOR)
 # root.mainloop()
 
-current_model = ModelData(root, model_name, arch_type)
+current_model = ModelData(model_name, arch_type)
 current_model.mdxnet_stem_select = 'Vocals'
 audio_file_base = input_path.split('/')[-1].split('.')[0]
 def do_nothing(*args, **kwargs): pass
