@@ -1,3 +1,6 @@
+import os
+from sys import platform
+
 MODEL_NAME_TO_FILE_NAME_MAP = {
     v: (k if ('.' in k) else (k+'.onnx'))
     for k, v in {
@@ -31,3 +34,21 @@ MODEL_NAME_TO_FILE_NAME_MAP = {
         "model_mel_band_roformer_ep_3005_sdr_11.4360.ckpt": "Mel-Roformer-Viperx-1143"
     }.items()
 }
+
+OS_UBUNTU = "Ubuntu"
+OS_MAC = "macOS"
+
+
+def get_os():
+    if platform.lower() == "linux":
+        # Check if it's Ubuntu
+        if os.path.isfile("/etc/os-release"):
+            with open("/etc/os-release") as f:
+                os_info = f.read()
+                if "Ubuntu" in os_info:
+                    return OS_UBUNTU
+        return "Linux (Not Ubuntu)"
+    elif platform.lower() == "darwin":
+        return OS_MAC
+    else:
+        return "Unknown OS"

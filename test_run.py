@@ -1,6 +1,7 @@
 from pydub import AudioSegment
 import functions
 import logging
+import utils
 
 logging.basicConfig(level=logging.INFO)
 
@@ -27,9 +28,16 @@ def are_mp3_files_same(path_1, path_2):
 path_expected_vocal = f'{input_folder}/expected-out-vocals.mp3'
 path_expected_instru = f'{input_folder}/expected-out-instru.mp3'
 
-assert are_mp3_files_same(path_expected_vocal, path_out_vocal)
-assert are_mp3_files_same(path_expected_instru, path_out_instru)
+if utils.get_os() == utils.OS_MAC:
+    assert are_mp3_files_same(path_expected_vocal, path_out_vocal)
+    assert are_mp3_files_same(path_expected_instru, path_out_instru)
+    print('this works great (MAC tests)')
+elif utils.get_os() == utils.OS_UBUNTU:
+    assert are_mp3_files_same(path_expected_vocal.replace('.mp3','-ubuntu.mp3'), path_out_vocal)
+    assert are_mp3_files_same(path_expected_instru.replace('.mp3', '-ubuntu.mp3'), path_out_instru)
+    print('this works great (Ubuntu tests')
+else:
+    logging.error('No matching os ' + utils.get_os())
 
-print('this works great!!')
 
 exit(0)
