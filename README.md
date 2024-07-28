@@ -1,18 +1,34 @@
-this fork is based from version c975f04885a217aec8c06223c4b2508ca4956c6a
+This fork aim to convert UVR5 into a linux docker image that's ready to separate an input track as a service reading env
+var as an input (see directly from source code/Dockerfile as this might change overtime).
+This fork is based from version c975f04885a217aec8c06223c4b2508ca4956c6a
 
-# Post-Fork Notes
-TODO
-- model at this location is not available
-- `'/Users/twnz/Documents/Repos/ultimatevocalremovergui-cli/models/MDX_Net_Models/MDX23C-8KFFT-InstVoc_HQ.ckpt'`
+### Where to download model from
+As of today there is a public directory for that
 ```
-  NORMAL_REPO = "https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/{model name}"
-``` 
+https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/{model name}
+```
+You can find `model name` from model filename map in const.py
 
+### Limitation
+- This modification focuses on this to work on MacOS and Ubuntu only
+- This only work with CPU mode
+- Output from MacOS and Ubuntu are different. Not necessarily in quality but we can't use the same test case against both OS
 
+### Setup notes for dev
+There's something in the UI code which could be remove but I don't get the chance to that modifies these files.
+A quick hack to not have them picked up by git is to run these
+```bash
+git update-index --assume-unchanged models/MDX_Net_Models/model_data/model_data.json
+git update-index --assume-unchanged models/VR_Models/model_data/model_data.json
+git update-index --assume-unchanged models/Demucs_Models/model_data/model_name_mapper.json
+git update-index --assume-unchanged models/MDX_Net_Models/model_data/model_name_mapper.json
+git update-index --assume-unchanged models/Demucs_Models/v3_v4_repo/demucs_models.txt  
+```
 
-Additional limitation
-- can only use CPU
+### Setup notes Ubuntu
+- Everything we need for Ubuntu 20.04 already described in Dockerfile
 
+### Setup notes Mac
 - make sure you have ffmpeg installed
 - install python 3.10.14
   - **with tk option** so following these steps
@@ -31,17 +47,9 @@ Additional limitation
       - if we later really need to use gpu we need to probably manually compile the package ourselves. this prolly is the most usefull comment on the issue for that regard https://github.com/microsoft/onnxruntime/issues/11037
     - `The 'sklearn' PyPI package is deprecated, use 'scikit-learn' rather than 'sklearn' for pip commands.`
       - `export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True`
-- Run run.py
-  - when running ModuleNotFoundError: No module named '_tkinter'
+  - when running script and get ModuleNotFoundError: No module named '_tkinter'
     - mentioned on top but can do `brew install tcl-tk` ref https://stackoverflow.com/questions/36760839/why-does-python-installed-via-homebrew-not-include-tkinter
 
-```
-git update-index --assume-unchanged models/MDX_Net_Models/model_data/model_data.json
-git update-index --assume-unchanged models/VR_Models/model_data/model_data.json
-git update-index --assume-unchanged models/Demucs_Models/model_data/model_name_mapper.json
-git update-index --assume-unchanged models/MDX_Net_Models/model_data/model_name_mapper.json
-git update-index --assume-unchanged models/Demucs_Models/v3_v4_repo/demucs_models.txt  
-```
 
 # Ultimate Vocal Remover GUI v5.6
 <img src="https://raw.githubusercontent.com/Anjok07/ultimatevocalremovergui/master/gui_data/img/UVR_v5.6.png?raw=true" />
