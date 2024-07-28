@@ -1271,7 +1271,7 @@ class ThreadSafeConsole(tk.Text):
     def select_all_text(self):
         self.tag_add('sel', '1.0', 'end')
 
-class MainWindow(TkinterDnD.Tk if is_dnd_compatible else tk.Tk):
+class MainWindow(TkinterDnD.Tk if is_dnd_compatible and False else tk.Tk):
     # --Constants--
     # Layout
 
@@ -2100,7 +2100,7 @@ class MainWindow(TkinterDnD.Tk if is_dnd_compatible else tk.Tk):
         all_widgets = self.options_Frame.winfo_children() + self.filePaths_Frame.winfo_children() + other_items
         self.focus_out_widgets(all_widgets, self.options_Frame)
         
-        if is_dnd_compatible:
+        if is_dnd_compatible and False:
             self.filePaths_saveTo_Button.drop_target_register(DND_FILES)
             self.filePaths_saveTo_Entry.drop_target_register(DND_FILES)
             self.drop_target_register(DND_FILES)

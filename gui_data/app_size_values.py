@@ -1,16 +1,17 @@
 import os
 import platform
-from screeninfo import get_monitors
+# from screeninfo import get_monitors
 from PIL import Image
 from PIL import ImageTk
 
 OPERATING_SYSTEM = platform.system()
 
 def get_screen_height():
-    monitors = get_monitors()
-    if len(monitors) == 0:
-        raise Exception("Failed to get screen height")
-    return monitors[0].height, monitors[0].width
+    # monitors = get_monitors()
+    # if len(monitors) == 0:
+    #     raise Exception("Failed to get screen height")
+    # return monitors[0].height, monitors[0].width
+    return 1080, 1920
 
 def scale_values(value):
     if not SCALE_WIN_SIZE == 1920:
