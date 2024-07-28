@@ -1,4 +1,3 @@
-# Use a base image
 FROM ubuntu:20.04
 
 # Install necessary dependencies
@@ -19,17 +18,20 @@ RUN rm -rf /var/lib/apt/lists/*
 # Set the working directory
 WORKDIR /app
 
-# Clone the repository
-RUN git clone --depth=1 https://github.com/maxoja/ultimatevocalremovergui-cli.git .
-
-# Copy screen config from repo to config dir
+# Copy everything from local repo to the image.
+COPY . /app
+# Copy dummy display config
 RUN cp ./xorg.conf /usr/share/X11/xorg.conf.d/xorg.conf
+RUN mkdir /app/testing-src/output; rm /app/testing-src/output/*
+# TODO: automatically create dir instead
+# TODO: remove huge unused files
 
-# Make the script executable
+# Install python packages and download model
 RUN export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True && python3.10 -m pip install -r requirements.txt
-RUN mkdir testing-src/output # TODO: automatically create dir instead
+RUN python3.10 download_models.py
 
-# Run the script
-CMD (/usr/bin/Xorg -noreset +extension GLX +extension RANDR +extension RENDER -logfile ./xdummy.log -config /etc/X11/xorg.conf :1 > /dev/null 2>&1 &) \
-    && export DISPLAY=:1 && python3.10 test_run.py \
-    ; tail -f /dev/null
+# Make the run script executable
+COPY ./run.sh ./run.sh
+RUN chmod +x ./run.sh
+
+CMD ./run.sh

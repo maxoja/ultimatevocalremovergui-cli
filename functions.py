@@ -3,14 +3,11 @@ import logging
 import requests
 from time import time
 
+import consts
 import utils
 from gui_data.constants import MDX_ARCH_TYPE
 from separate import SeperateMDX, SeperateMDXC
 from UVR import ModelData, MainWindow, init_root
-
-
-ARCH_TYPE = 'MDX-Net'
-MODEL_NAME = 'MDX23C-InstVoc HQ'
 
 
 def _do_nothing(*args, **kwargs):
@@ -30,31 +27,11 @@ def _wav_to_mp3_return_out_path(path_wav) -> str:
     return path_mp3
 
 
-def download_model(model_name=MODEL_NAME):
-    """
-    because hosting large file on GitHub is not free
-    for now let's download it everytime
-    we can move this to S3 later
-    """
-    logging.info(f"Downloading model {model_name}")
-    file_name = utils.MODEL_NAME_TO_FILE_NAME_MAP[model_name]
-    url = "https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/" + file_name
-    save_path = './models/MDX_Net_Models/'+file_name
-
-    response = requests.get(url, stream=True)
-    response.raise_for_status()
-    with open(save_path, 'wb') as file:
-        for chunk in response.iter_content(chunk_size=8192):
-            file.write(chunk)
-
-    logging.info(f"Model file {file_name} downloaded successfully and saved to {save_path}")
-
-
 def separate_mp3_tracks(
         in_file_path: str,
         out_dir_path:str,
-        model_name=MODEL_NAME,
-        arch_type=ARCH_TYPE
+        model_name=consts.DEFAULT_MODEL_NAME,
+        arch_type=consts.DEFAULT_ARCH_TYPE
 ) -> list[str]:
     # Initialize
     root = MainWindow()
