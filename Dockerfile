@@ -2,12 +2,11 @@
 FROM ubuntu:20.04
 
 # Install necessary dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    python3.10.14-tk \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update
+RUN apt-get install -y git curl
+RUN apt-get install -y python3.10.14-tk
+RUN apt-get install -y ffmpeg
+RUN rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
